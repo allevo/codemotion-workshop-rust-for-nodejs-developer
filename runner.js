@@ -1,8 +1,6 @@
 'use strict'
 
 const fs = require('node:fs')
-
-console.log(process.argv);
 const chapter = cast(process.argv[2])
 
 const rust_binaries = fs.readdirSync('./src/bin')
@@ -21,8 +19,8 @@ if (rust_binary) {
         const convert = require('echomd').raw
         const content = fs.readFileSync(file_name, { encoding: 'utf-8' });
         console.log(convert(content));
-    } else if (other_binary.endsWith('.js')) {
-        require(file_name)
+    } else if (other_binary.endsWith('.js') || other_binary.endsWith('.mjs')) {
+        import(file_name)
     } else {
         throw new Error('Unknown file extension for file: ' + other_binary)
     }
