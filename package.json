@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/allevo/codemotion-workshop-rust-for-nodejs-developer#readme",
   "dependencies": {
-    "echomd": "^0.2.3"
+    "@fastify/mongodb": "^5.0.0",
+    "echomd": "^0.2.3",
+    "fastify": "^3.29.0",
+    "fastify-mongodb": "^4.2.0"
   }
 }
