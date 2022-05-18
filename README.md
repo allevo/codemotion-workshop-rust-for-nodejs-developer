@@ -7,6 +7,12 @@ npm ci
 cargo build
 ```
 
+Start mongo locally
+```
+docker run --rm --name mongo -p 27017:27017 -d mongo:5.0.6
+```
+
+Run workshop
 ```
 npm run workshop <chapter number>
 ```
