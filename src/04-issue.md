@@ -1,11 +1,12 @@
 # Issue
 
-So:
-- using functional approach we are not able to *guarantee* someone change the input wrongly
-- passing by the reference values, the invoked method can change it, creating some issues
+Quindi:
+- per gli amanti dell'approccio funzionale, non siamo in grado di garantire che qualcosa cambi i parametri di input
+- in JS, le variabili allocate nello heap sono passate per referenza. I metodi possono quindi cambiarlo
 
-We would like to:
-- allow the "change parameter only when really we want"
-- avoid otherwise
+Cosa ci piacerebbe invece avere:
+- permettere "la modifica solo quando veramente la vogliamo"
+- non permetterla altrimenti
 
-**Ideas?**
+
+**Idee ?**

@@ -1,0 +1,3 @@
+# Quanti sono i modi con cui una funzione può terminare?
+
+Beh, contiamoli...

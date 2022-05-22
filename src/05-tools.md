@@ -1,10 +1,10 @@
 # Tools
 
 **PR/MR**
-Every time a developer wants to improve the code, we need to check that "no-side effect".
+Ogniqualvolta uno sviluppatore vuole applicare dei cambiamenti al codie, dovremmo controllare, tra le altre cose, che non ci siano side-effect.
 
 **Teach**
-Not all developers in the team have the enough experience to avoid issue like that.
+Non tutti gli sviluppatori hanno il medesimo livello di esperienza. Insegnare (Code review, pair programming, etc...) alle persone meno esperte può limitare i problemi.
 
 # Reality
-We haven't a tool for that issue. "You" is the tool
+Purtroppo però, non abbiamo nessun tool per automatizzare il tutto.
