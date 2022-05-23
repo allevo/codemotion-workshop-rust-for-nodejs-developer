@@ -1,3 +1,11 @@
+// Error handling is a worse part of a program.
+// Rust tries to make it as easy as possible
+// introducing the concept of Result
+// Result is an enumeration that can have only 2 values:
+// - Ok(T): means that your variable correctly contains a value
+// - Err(E): means that your variable contains an error
+// Let see...
+
 #[derive(Debug)]
 struct Employee {
     id: String,

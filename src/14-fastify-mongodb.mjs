@@ -6,8 +6,6 @@ import fastifyMongodb from '@fastify/mongodb'
 const fastify = fastifyFactory({ logger: true })
 
 fastify.register(fastifyMongodb, {
-    // force to close the mongodb connection when app stopped
-    // the default value is false
     forceClose: true,
     url: 'mongodb://localhost:27017/mydb'
 })

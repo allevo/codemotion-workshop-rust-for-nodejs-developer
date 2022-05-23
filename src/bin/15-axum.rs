@@ -1,18 +1,17 @@
-
 use axum::{
+    extract::{Extension, FromRequest, RequestParts},
     http::StatusCode,
     response::IntoResponse,
     routing::{get, post},
-    extract::{Extension, FromRequest, RequestParts},
     Json, Router,
 };
-use tower_http::{classify::ServerErrorsFailureClass, trace::TraceLayer};
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use futures_util::StreamExt;
+use futures_util::TryStreamExt;
+use mongodb::{bson::oid::ObjectId, options::ClientOptions, Client, Collection};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
-use mongodb::{Client, options::ClientOptions, Collection, bson::oid::ObjectId};
-use futures_util::TryStreamExt;
-use futures_util::StreamExt;
+use tower_http::{classify::ServerErrorsFailureClass, trace::TraceLayer};
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 // Rust doens't have async support by default:
 // Rust provides an interface to async runtime
@@ -28,12 +27,11 @@ async fn main() {
             // We can use the environment variable `RUST_LOG`
             // to configure at runtime the log level.
             // The log level can be defined for module
-            std::env::var("RUST_LOG")
-                .unwrap_or_else(|_| "13_tide=debug,tower_http=debug".into()),
+            std::env::var("RUST_LOG").unwrap_or_else(|_| "13_tide=debug,tower_http=debug".into()),
         ))
         .with(tracing_subscriber::fmt::layer())
         .init();
-    
+
     let employees_collection = connect_to_mongodb().await;
 
     let router = Router::new()
@@ -60,8 +58,9 @@ async fn main() {
 async fn get_users(
     // We can access to the handler in this way
     Extension(employees_collection): Extension<Collection<EmployeeEntity>>,
-) -> impl IntoResponse  {
-    let all_employees: Vec<EmployeeDTO> = employees_collection.find(None, None)
+) -> impl IntoResponse {
+    let all_employees: Vec<EmployeeDTO> = employees_collection
+        .find(None, None)
         .await
         .unwrap()
         // We map EmployeeEntity to EmployeeDTO
@@ -78,11 +77,11 @@ async fn get_users(
 async fn create_user(
     Extension(employees_collection): Extension<Collection<EmployeeEntity>>,
     Json(input): Json<EmployeeCreation>,
-) -> impl IntoResponse  {
+) -> impl IntoResponse {
     // Creating the entity
     let entity = EmployeeEntity {
         // MongoDb uses ObjectId as type of PK
-        _id:  ObjectId::new(),
+        _id: ObjectId::new(),
         name: input.name,
         salary: input.salary,
         age: input.age,
@@ -134,7 +133,9 @@ impl From<EmployeeEntity> for EmployeeDTO {
 
 // Connects to mongo and returns the connection
 async fn connect_to_mongodb() -> Collection<EmployeeEntity> {
-    let client_options = ClientOptions::parse("mongodb://localhost:27017/").await.unwrap();
+    let client_options = ClientOptions::parse("mongodb://localhost:27017/")
+        .await
+        .unwrap();
     let client = Client::with_options(client_options).unwrap();
     let db = client.database("mydb");
 

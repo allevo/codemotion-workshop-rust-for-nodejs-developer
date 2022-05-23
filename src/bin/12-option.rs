@@ -1,3 +1,12 @@
+// Rust doens't have the "null" / "undefined" variable
+// (if you working in a safe mode). So, how to handle the
+// absence of a value?
+// The anwser is: with Option<T>
+// Option<T> (it is an enumeration) allows you to define
+// a variable that can only have 2 values:
+// - None: means no value is stored
+// - Some(T): means that the variable stores a value
+
 #[derive(Debug)]
 struct Employee {
     id: String,
